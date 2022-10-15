@@ -6,7 +6,13 @@ const User = require('../models/user');
 router.post('/register', [
     body('email')
     .isEmail()
-    .withMessage('Please enter a vaild email'),
+    .withMessage('Please enter a vaild email')
+    .custom(async (value) => {
+        const user = await User.findOne({ email: value });
+        if (user) {
+            return Promise.reject('Emial address already exists!');
+        }
+    }),
     body('password')
     .trim()
     .isLength({min: 8}),
@@ -18,7 +24,9 @@ router.post('/register', [
     .notEmpty()
 ],Auth.register)
 
-router.get('/', Auth.checkEmail)
+router.get('', Auth.getUsers);
+
+router.get('/user', Auth.checkEmail)
 
 router.post('/login', Auth.logIn)
 

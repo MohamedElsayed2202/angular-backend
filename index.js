@@ -10,6 +10,8 @@ const mongoose = require('mongoose');
 //defined server consts
 const app = express();
 const authRouter = require('./routes/auth');
+const productsRouter = require('./routes/product');
+const categoryRouter = require('./routes/category');
 const {v4: uuidv4} = require('uuid');
 const error = require('./middlewares/error');
 const cors = require('./middlewares/cors');
@@ -48,7 +50,8 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 //routes
 
 app.use('/auth', authRouter);
-
+app.use('/products', productsRouter);
+app.use('/categories', categoryRouter); 
 app.use('',(req, res, next)=>{
     res.status(200).send({name: 'mohamed'});
 })

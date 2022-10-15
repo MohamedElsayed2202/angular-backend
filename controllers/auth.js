@@ -4,6 +4,20 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const errorThrewer = require('../helpers/error');
 class Auth {
+    static getUsers = async (req, res, next) => {
+        try {
+            const users = await User.find();
+            if(!users){
+                errorThrewer(401,'No users found.');
+            }
+            res.status(200).send(users.map(user => ({id: user._id, name: user.name})))
+        } catch (error) {
+            if (!error.statusCode) {
+                error.statusCode = 500;
+            }
+            next(error);
+        }
+    }
     static register = async (req, res, next) => {
         try {
             const errors = validationResult(req);
@@ -60,7 +74,7 @@ class Auth {
                 console.log(55);
                 errorThrewer(401,'A user with this email could not be found.');
             }
-            const isEqual = bcrypt.compare(password, user.password);
+            const isEqual = await bcrypt.compare(password, user.password);
             if(!isEqual){
                 errorThrewer(401,'Wrong password.');
             }
