@@ -19,11 +19,12 @@ const fileStorage = multer.diskStorage({
     destination: (req, file, cb)=>{
         cb(null, 'images');
     },
-    filename: (req, file, cb)=>{
-        cb(null, uuidv4());
+    filename: (req, file, cb) =>{
+        cb(null, uuidv4()); 
     }
 });
-const fileFilter = (req, file, cb)=>{
+
+const fileFilter = (req, file, cb) => {
     if(
         file.mimetype === 'image/png' ||
         file.mimetype === 'image/jpg' ||
@@ -40,7 +41,7 @@ const fileFilter = (req, file, cb)=>{
 //to read json data
 app.use(bodyParser.json());
 //to save images
-app.use(multer({storage:fileStorage, fileFilter: fileFilter}).single('image'));
+app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'));
 //cors handler middleware
 app.use(cors);
 //to serve images folder

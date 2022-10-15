@@ -13,4 +13,6 @@ router.post('',[
 
 router.get('/filter',Products.filterProducts)
 
+router.put('/:id', Products.updateProduct)
+
 module.exports = router;
