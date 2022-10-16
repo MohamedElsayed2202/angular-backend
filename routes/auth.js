@@ -3,6 +3,8 @@ const router = express.Router();
 const {body} = require('express-validator')
 const Auth = require('../controllers/auth')
 const User = require('../models/user');
+const isAuth = require('../middlewares/is-auth');
+
 router.post('/register', [
     body('email')
     .isEmail()
@@ -19,16 +21,19 @@ router.post('/register', [
     body('name')
     .trim()
     .notEmpty(),
-    body('roomNo')
+    body('type')
     .trim()
     .notEmpty()
 ],Auth.register)
 
-router.get('', Auth.getUsers);
+router.get('', isAuth,Auth.getUsers);
 
 router.get('/user', Auth.checkEmail)
 
 router.post('/login', Auth.logIn)
 
+router.put('/:id', isAuth, Auth.updateUser);
+
+router.delete('/:id',isAuth, Auth.deleteUser);
 
 module.exports = router;

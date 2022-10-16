@@ -1,18 +1,24 @@
 const express = require('express');
 const router = express.Router();
-const {body} = require('express-validator')
+const { body } = require('express-validator')
 const Products = require('../controllers/products')
-router.get('', Products.getProducts)
-router.post('',[
+const isAuth = require('../middlewares/is-auth');
+
+router.get('', isAuth, Products.getProducts);
+
+
+router.post('', isAuth, [
     body('name')
-    .trim()
-    .notEmpty(),
+        .trim()
+        .notEmpty(),
     body('price')
-    .notEmpty(),
-],Products.addProduct);
+        .notEmpty(),
+], Products.addProduct);
 
-router.get('/filter',Products.filterProducts)
+router.get('/filter', isAuth, Products.filterProducts)
 
-router.put('/:id', Products.updateProduct)
+router.put('/:id', isAuth, Products.updateProduct)
+
+router.delete('/:id', isAuth, Products.delete)
 
 module.exports = router;

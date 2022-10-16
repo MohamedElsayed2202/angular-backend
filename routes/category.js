@@ -2,8 +2,10 @@ const express = require('express');
 const router = express.Router();
 const Category = require('../models/category');
 const errorThrewer = require('../helpers/error');
+const isAuth = require('../middlewares/is-auth');
 
-router.get('',async(req, res, next)=>{
+
+router.get('',isAuth,async(req, res, next)=>{
     try {
         const categories = await Category.find();
         if(!categories){

@@ -16,7 +16,7 @@ const productSchema = new Schema({
     },
     categoryId:{
         type: Schema.Types.ObjectId,
-        ref: 'categories'
+        ref: 'Categories'
     }
 });
 

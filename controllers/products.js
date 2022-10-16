@@ -4,7 +4,6 @@ const fs = require('fs');
 const path = require('path');
 const Product = require('../models/product');
 const errorThrewer = require('../helpers/error');
-const { Types } = require('mongoose');
 
 class Products{
     static addProduct = async(req, res, next)=>{
@@ -13,12 +12,9 @@ class Products{
             if(!errors.isEmpty){
                 errorThrewer(422, 'Validation faild.');
             }
-            console.log(req.body);
-
             if(!req.file){
                 errorThrewer(422, 'Image not provided');
             }
-            console.log(req.file);
             const image = req.file.path.replace("\\", "/");
             req.body['image'] = image;
             const product = new Product(req.body)
@@ -62,9 +58,7 @@ class Products{
     static updateProduct = async(req,res, next)=>{
         try {
             const id = req.params['id'];
-            console.log(id);
             if(req.file){
-                console.log(req.file);
                 req.body.imageUrl = req.file.path.replace("\\", "/");
             }
             if(!req.body.imageUrl){
@@ -77,12 +71,10 @@ class Products{
             if(req.body.imageUrl !== product.image){
                 Products.clearImage(product.image);
             }
-
             product.name = req.body.name;
             product.price = req.body.price;
             product.image = req.body.imageUrl;
             const catId = mongoose.Types.ObjectId(req.body.categoryId);
-            console.log(5555);
             product.categoryId = catId
 
             await product.save();
