@@ -22,6 +22,9 @@ router.post('', isAuth, [
         .notEmpty()
 ], Orders.addOrder);
 
-// router.put('/:id')
+router.patch('/:id', isAuth, Orders.cancle);
+
+router.get('/user',isAuth,Orders.getByUserId);
+
 
 module.exports = router;

@@ -153,6 +153,22 @@ class Auth {
             next(error);
         }
     }
+
+    static getById = async(req, res, next)=>{
+        try {
+            const id = req.params['id'];
+            const user = await User.findById(id);
+            if(!user){
+                errorThrewer(422,'User not found!');
+            }
+            res.status(200).send(user);
+        } catch (error) {
+            if (!error.statusCode) {
+                error.statusCode = 500;
+            }
+            next(error);
+        }
+    }
     
     static clearImage(filePath){
         filePath = path.join(__dirname,'..', filePath);

@@ -19,7 +19,7 @@ class Products{
             req.body['image'] = image;
             const product = new Product(req.body)
             await product.save();
-            res.status(201).send({message: 'Product created!', productId: product._id});
+            res.status(201).send(product);
         } catch (error) {
             if(!error.statusCode){
                 error.statusCode = 500;

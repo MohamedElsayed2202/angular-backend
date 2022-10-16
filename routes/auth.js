@@ -30,10 +30,14 @@ router.get('', isAuth,Auth.getUsers);
 
 router.get('/user', Auth.checkEmail)
 
+router.get('/user/:id', Auth.getById)
+
 router.post('/login', Auth.logIn)
 
 router.put('/:id', isAuth, Auth.updateUser);
 
 router.delete('/:id',isAuth, Auth.deleteUser);
+
+
 
 module.exports = router;
