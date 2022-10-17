@@ -55,7 +55,6 @@ class Orders{
     static cancle = async(req, res, next) =>{
         try {
             const id = req.params['id'];
-            console.log(id);
             const order = await Order.findById(id);
             order.status = req.body.status;
             await order.save();
