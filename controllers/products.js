@@ -29,7 +29,7 @@ class Products{
     }
     static getProducts = async(req, res, next)=>{
         try {
-            const products = await Product.find();
+            const products = await Product.find().sort({categoryId: 1});
             if(!products){
                 errorThrewer(401,'No products added for this category');
             }
